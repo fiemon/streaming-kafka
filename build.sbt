@@ -1,4 +1,4 @@
-name := "spark-streaming-twitter"
+name := "spark-streaming-kafka"
 
 version := "0.0.1"
 
@@ -11,13 +11,21 @@ scalacOptions ++= Seq("-Xlint", "-deprecation", "-unchecked", "-feature")
 updateOptions := updateOptions.value.withCachedResolution(true)
 
 resolvers += "CodeLibs Repository" at "http://maven.codelibs.org/"
-//resolvers += "Atilika Open Source repository" at "http://www.atilika.org/nexus/content/repositories/atilika"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-streaming" % "1.4.1" % "provided",
-  "org.apache.spark" %% "spark-streaming-twitter" % "1.4.1" exclude("org.spark-project.spark", "unused"),
-  "org.apache.lucene" % "lucene-analyzers-common" % "5.2.1",
-//  "org.apache.lucene" % "lucene-analyzers-kuromoji" % "5.2.1"
-  "org.codelibs" % "lucene-analyzers-kuromoji-ipadic-neologd" % "6.0.0-20160613"
-//  "org.atilika.kuromoji" % "kuromoji" % "0.7.7"
+  "org.apache.spark" %% "spark-streaming" % "1.4.1",
+  "org.apache.spark" %% "spark-streaming-kafka" % "1.4.1"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".properties" => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".xml" => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".types" => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".class" => MergeStrategy.first
+  case "application.conf"                            => MergeStrategy.concat
+  case "unwanted.txt"                                => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}

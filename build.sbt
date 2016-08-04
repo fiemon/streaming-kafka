@@ -2,7 +2,7 @@ name := "spark-streaming-kafka"
 
 version := "0.0.1"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.10.5"
 
 organization := "org.littlewings"
 
@@ -13,8 +13,8 @@ updateOptions := updateOptions.value.withCachedResolution(true)
 resolvers += "CodeLibs Repository" at "http://maven.codelibs.org/"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-streaming" % "1.4.1",
-  "org.apache.spark" %% "spark-streaming-kafka" % "1.4.1"
+  "org.apache.spark" %% "spark-streaming" % "1.6.0",
+  "org.apache.spark" %% "spark-streaming-kafka" % "1.6.0"
 )
 
 assemblyMergeStrategy in assembly := {
